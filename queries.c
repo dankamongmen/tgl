@@ -2082,14 +2082,8 @@ static void _tgl_do_send_photo (struct tgl_state *TLS, tgl_peer_id_t to_id, cons
   int fd = open (file_name, O_RDONLY | O_BINARY);
   if (fd < 0) {
     tgl_set_query_error (TLS, EBADF, "Can not open file: %s", strerror(errno));
-    if (!avatar.peer_id) {
-      if (callback) {
-        callback (TLS, callback_extra, 0, 0);
-      }
-    } else {
-      if (callback) {
-        ((void (*)(struct tgl_state *, void *, int))callback) (TLS, callback_extra, 0);
-      }
+    if (callback) {
+      callback (TLS, callback_extra, 0, NULL);
     }
     return;
   }
@@ -2099,14 +2093,8 @@ static void _tgl_do_send_photo (struct tgl_state *TLS, tgl_peer_id_t to_id, cons
   if (size <= 0) {
     tgl_set_query_error (TLS, EBADF, "File is empty");
     close (fd);
-    if (!avatar.peer_id) {
-      if (callback) {
-        callback (TLS, callback_extra, 0, 0);
-      }
-    } else {
-      if (callback) {
-        ((void (*)(struct tgl_state *, void *, int))callback) (TLS, callback_extra, 0);
-      }
+    if (callback) {
+      callback (TLS, callback_extra, 0, 0);
     }
     return;
   }
@@ -2132,14 +2120,8 @@ static void _tgl_do_send_photo (struct tgl_state *TLS, tgl_peer_id_t to_id, cons
     close (fd);
     tgl_set_query_error (TLS, E2BIG, "File is too big");
     tfree (f, sizeof (*f));
-    if (!avatar.peer_id) {
-      if (callback) {
-        callback (TLS, callback_extra, 0, 0);
-      }
-    } else {
-      if (callback) {
-        ((void (*)(struct tgl_state *, void *, int))callback) (TLS, callback_extra, 0);
-      }
+    if (callback) {
+      callback (TLS, callback_extra, 0, 0);
     }
     return;
   }
